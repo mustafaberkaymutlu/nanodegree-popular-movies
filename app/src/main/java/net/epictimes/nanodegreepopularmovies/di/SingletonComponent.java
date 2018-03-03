@@ -1,6 +1,8 @@
 package net.epictimes.nanodegreepopularmovies.di;
 
 import net.epictimes.nanodegreepopularmovies.MoviesApp;
+import net.epictimes.nanodegreepopularmovies.data.RepositoryModule;
+import net.epictimes.nanodegreepopularmovies.data.remote.RemoteDataSourceModule;
 
 import javax.inject.Singleton;
 
@@ -15,6 +17,8 @@ import dagger.android.AndroidInjectionModule;
 @Singleton
 @Component(modules = {
         SingletonModule.class,
+        RemoteDataSourceModule.class,
+        RepositoryModule.class,
         AndroidInjectionModule.class,
         ActivityBuilderModule.class})
 public interface SingletonComponent {

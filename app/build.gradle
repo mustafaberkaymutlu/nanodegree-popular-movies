@@ -48,6 +48,11 @@ dependencies {
     implementation deps.mosby.core
     implementation deps.mosby.viewState
 
+    // Retrofit
+    implementation deps.retrofit.base
+    implementation deps.retrofit.gson
+    implementation deps.okHttpLogginInterceptor
+
     // Leak Canary
     debugImplementation deps.leakCanary.real
     releaseImplementation deps.leakCanary.noOp

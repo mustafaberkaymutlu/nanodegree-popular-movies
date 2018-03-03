@@ -6,7 +6,6 @@ import android.app.Application;
 import com.squareup.leakcanary.LeakCanary;
 
 import net.epictimes.nanodegreepopularmovies.di.DaggerSingletonComponent;
-import net.epictimes.nanodegreepopularmovies.di.SingletonComponent;
 
 import javax.inject.Inject;
 
@@ -20,7 +19,6 @@ import timber.log.Timber;
  */
 
 public class MoviesApp extends Application implements HasActivityInjector {
-    private SingletonComponent singletonComponent;
 
     @Inject
     DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
@@ -42,11 +40,10 @@ public class MoviesApp extends Application implements HasActivityInjector {
     }
 
     private void initSingletonComponent() {
-        singletonComponent = DaggerSingletonComponent.builder()
+        DaggerSingletonComponent.builder()
                 .application(this)
-                .build();
-
-        singletonComponent.inject(this);
+                .build()
+                .inject(this);
     }
 
     private void initTimber() {
