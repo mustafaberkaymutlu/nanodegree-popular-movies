@@ -1,14 +1,28 @@
 package net.epictimes.nanodegreepopularmovies;
 
+import android.app.Activity;
 import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
+
+import net.epictimes.nanodegreepopularmovies.di.DaggerSingletonComponent;
+import net.epictimes.nanodegreepopularmovies.di.SingletonComponent;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
 
 /**
  * Created by Mustafa Berkay Mutlu on 3.03.2018.
  */
 
-public class MoviesApp extends Application {
+public class MoviesApp extends Application implements HasActivityInjector {
+    private SingletonComponent singletonComponent;
+
+    @Inject
+    DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
 
     @Override
     public void onCreate() {
@@ -20,6 +34,20 @@ public class MoviesApp extends Application {
             return;
         }
         LeakCanary.install(this);
+
+        initSingletonComponent();
     }
 
+    private void initSingletonComponent() {
+        singletonComponent = DaggerSingletonComponent.builder()
+                .application(this)
+                .build();
+
+        singletonComponent.inject(this);
+    }
+
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return activityDispatchingAndroidInjector;
+    }
 }
