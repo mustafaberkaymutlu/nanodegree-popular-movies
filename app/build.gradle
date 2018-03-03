@@ -48,6 +48,9 @@ dependencies {
     debugImplementation deps.leakCanary.real
     releaseImplementation deps.leakCanary.noOp
 
+    // Others
+    implementation deps.timber
+
     // Unit tests
     testImplementation 'junit:junit:4.12'
 

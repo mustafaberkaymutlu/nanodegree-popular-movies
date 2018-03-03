@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import timber.log.Timber;
 
 /**
  * Created by Mustafa Berkay Mutlu on 3.03.2018.
@@ -36,6 +37,8 @@ public class MoviesApp extends Application implements HasActivityInjector {
         LeakCanary.install(this);
 
         initSingletonComponent();
+
+        initTimber();
     }
 
     private void initSingletonComponent() {
@@ -44,6 +47,12 @@ public class MoviesApp extends Application implements HasActivityInjector {
                 .build();
 
         singletonComponent.inject(this);
+    }
+
+    private void initTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     @Override
