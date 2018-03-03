@@ -1,7 +1,8 @@
 package net.epictimes.nanodegreepopularmovies.di;
 
-import net.epictimes.nanodegreepopularmovies.MainActivity;
 import net.epictimes.nanodegreepopularmovies.di.scope.ActivityScoped;
+import net.epictimes.nanodegreepopularmovies.features.list.ListActivity;
+import net.epictimes.nanodegreepopularmovies.features.list.ListActivityModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -14,7 +15,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class ActivityBuilderModule {
 
     @ActivityScoped
-    @ContributesAndroidInjector
-    abstract MainActivity contributeMainActivityInjector();
+    @ContributesAndroidInjector(modules = {ListActivityModule.class})
+    abstract ListActivity contributeMainActivityInjector();
 
 }

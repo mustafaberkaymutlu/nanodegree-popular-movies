@@ -44,6 +44,10 @@ dependencies {
     implementation deps.daggerAndroid.runtime
     annotationProcessor deps.daggerAndroid.compiler
 
+    // Mosby
+    implementation deps.mosby.core
+    implementation deps.mosby.viewState
+
     // Leak Canary
     debugImplementation deps.leakCanary.real
     releaseImplementation deps.leakCanary.noOp
