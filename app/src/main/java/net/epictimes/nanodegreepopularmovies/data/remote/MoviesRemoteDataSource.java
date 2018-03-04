@@ -3,6 +3,7 @@ package net.epictimes.nanodegreepopularmovies.data.remote;
 import android.support.annotation.NonNull;
 
 import net.epictimes.nanodegreepopularmovies.data.MoviesDataSource;
+import net.epictimes.nanodegreepopularmovies.data.model.Movie;
 import net.epictimes.nanodegreepopularmovies.data.model.PagedMovies;
 
 import javax.inject.Inject;
@@ -21,7 +22,7 @@ public class MoviesRemoteDataSource implements MoviesDataSource {
     Services services;
 
     @Inject
-    public MoviesRemoteDataSource() {
+    MoviesRemoteDataSource() {
     }
 
     @Override
@@ -44,6 +45,30 @@ public class MoviesRemoteDataSource implements MoviesDataSource {
                     public void onFailure(@NonNull Call<PagedMovies> call,
                                           @NonNull Throwable t) {
                         callback.onPopularMoviesDataNotAvailable();
+                    }
+                });
+    }
+
+    @Override
+    public void getMovieById(int movieId, GetMovieCallback callback) {
+        services.getMovie(movieId)
+                .enqueue(new Callback<Movie>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Movie> call,
+                                           @NonNull Response<Movie> response) {
+                        final Movie body = response.body();
+
+                        if (response.isSuccessful() && body != null) {
+                            callback.onMovieReceived(body);
+                        } else {
+                            callback.onMovieNotAvailable();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Movie> call,
+                                          @NonNull Throwable t) {
+                        callback.onMovieNotAvailable();
                     }
                 });
     }

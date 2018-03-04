@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Nanodegree Popular Movies</string>
 
-    <string name="error_getting_popular_movies">Error while getting popular movies </string>
+    <string name="error_getting_popular_movies">Error while getting popular movies</string>
+    <string name="error_displaying_movie">Error while displaying movie</string>
+
+    <string name="content_desc_movie_poster">Movie Poster</string>
+
+    <string name="detail_label_title">Title</string>
+    <string name="detail_label_overview">Overview</string>
+    <string name="detail_label_release_date">Release Date</string>
+    <string name="detail_label_vote_average">Vote Average</string>
 </resources>

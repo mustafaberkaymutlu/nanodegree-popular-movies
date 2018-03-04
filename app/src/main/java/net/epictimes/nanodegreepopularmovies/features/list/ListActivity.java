@@ -1,5 +1,6 @@
 package net.epictimes.nanodegreepopularmovies.features.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import net.epictimes.nanodegreepopularmovies.R;
 import net.epictimes.nanodegreepopularmovies.data.model.PagedMovies;
 import net.epictimes.nanodegreepopularmovies.features.BaseActivity;
+import net.epictimes.nanodegreepopularmovies.features.detail.DetailActivity;
 import net.epictimes.nanodegreepopularmovies.util.EndlessRecyclerViewScrollListener;
 
 import javax.inject.Inject;
@@ -41,6 +43,7 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
                 new GridLayoutManager(this, MOVIES_GRID_SPAN_COUNT);
 
         recyclerViewAdapter = new MoviesRecyclerViewAdapter();
+        recyclerViewAdapter.setMovieClickListener(movie -> presenter.userClickedMovie(movie));
 
         final EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener =
                 new EndlessRecyclerViewScrollListener(gridLayoutManager) {
@@ -65,6 +68,12 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
 
     @Override
     public void displayGettingPopularMoviesError() {
-        Toast.makeText(this, getString(R.string.error_getting_popular_movies), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.error_getting_popular_movies, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void goToMovieDetail(int movieId) {
+        final Intent detailIntent = DetailActivity.newIntent(this, movieId);
+        startActivity(detailIntent);
     }
 }

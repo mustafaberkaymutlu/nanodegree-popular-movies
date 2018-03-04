@@ -3,6 +3,7 @@ package net.epictimes.nanodegreepopularmovies.features.list;
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 
+import net.epictimes.nanodegreepopularmovies.data.model.Movie;
 import net.epictimes.nanodegreepopularmovies.data.model.PagedMovies;
 
 /**
@@ -17,6 +18,8 @@ public interface ListContract {
 
         void displayGettingPopularMoviesError();
 
+        void goToMovieDetail(int movieId);
+
     }
 
     interface Presenter extends MvpPresenter<View> {
@@ -24,6 +27,8 @@ public interface ListContract {
         void getPopularMovies();
 
         void loadMore();
+
+        void userClickedMovie(Movie movie);
 
     }
 

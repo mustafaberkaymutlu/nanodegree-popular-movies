@@ -9,6 +9,7 @@ import net.epictimes.nanodegreepopularmovies.R;
 import net.epictimes.nanodegreepopularmovies.data.model.Movie;
 import net.epictimes.nanodegreepopularmovies.data.remote.Endpoint;
 import net.epictimes.nanodegreepopularmovies.util.GlideApp;
+import net.epictimes.nanodegreepopularmovies.util.ItemClickListener;
 
 /**
  * Created by Mustafa Berkay Mutlu on 4.03.2018.
@@ -20,11 +21,13 @@ class MovieViewHolder extends ViewHolder {
     private final ImageView imageViewPoster;
     private final TextView textViewTitle;
 
-    MovieViewHolder(View itemView) {
+    MovieViewHolder(View itemView, ItemClickListener itemClickListener) {
         super(itemView);
 
         imageViewPoster = itemView.findViewById(R.id.imageViewPoster);
         textViewTitle = itemView.findViewById(R.id.textViewTitle);
+
+        itemView.setOnClickListener(v -> itemClickListener.onItemClicked(getAdapterPosition()));
     }
 
     void bindTo(Movie movie) {

@@ -3,6 +3,7 @@ package net.epictimes.nanodegreepopularmovies.features.list;
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 
 import net.epictimes.nanodegreepopularmovies.data.MoviesDataSource;
+import net.epictimes.nanodegreepopularmovies.data.model.Movie;
 import net.epictimes.nanodegreepopularmovies.data.model.PagedMovies;
 import net.epictimes.nanodegreepopularmovies.di.qualifier.Repository;
 
@@ -55,5 +56,10 @@ class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListC
                         ifViewAttached(ListContract.View::displayGettingPopularMoviesError);
                     }
                 });
+    }
+
+    @Override
+    public void userClickedMovie(Movie movie) {
+        ifViewAttached(view -> view.goToMovieDetail(movie.getId()));
     }
 }
