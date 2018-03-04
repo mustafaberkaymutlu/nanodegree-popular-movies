@@ -5,22 +5,20 @@ buildscript {
     def versionBuild = 0
 
     ext.versions = [
-            'compileSdk': 26,
-            'buildTools': '26.0.2',
+            'compileSdk': 27,
             'minSdk': 21,
-            'targetSdk': 26,
+            'targetSdk': 27,
 
             'versionCode' : versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild,
             'versionName' : "${versionMajor}.${versionMinor}.${versionPatch}",
 
-            'supportLibrary': '26.1.0',
+            'supportLibrary': '27.1.0',
             'constraintLayout': '1.1.0-beta5',
-            'googlePlayServices': '11.8.0',
             'dagger': '2.14.1',
             'leakCanary': '1.5.1',
             'mosby': '3.1.0',
             'retrofit': '2.3.0',
-            'permissionsDispatcher': '3.1.0'
+            'glide': '4.6.1',
     ]
 
     ext.deps = [
@@ -55,16 +53,9 @@ buildscript {
                     'base': "com.squareup.retrofit2:retrofit:${versions.retrofit}",
                     'gson': "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
             ],
-            'permissionsDispatcher': [
-                    'runtime': "com.github.hotchemi:permissionsdispatcher:${versions.permissionsDispatcher}",
-                    'compiler': "com.github.hotchemi:permissionsdispatcher-processor:${versions.permissionsDispatcher}",
-            ],
-            'googlePlayServices': [
-                    'location': "com.google.android.gms:play-services-location:${versions.googlePlayServices}",
-            ],
-            'fabric':[
-                    "gradlePlugin": "io.fabric.tools:gradle:1.25.1",
-                    'crashlytics': 'com.crashlytics.sdk.android:crashlytics:2.9.1@aar'
+            'glide': [
+                    'runtime': "com.github.bumptech.glide:glide:${versions.glide}",
+                    'compiler': "com.github.bumptech.glide:compiler:${versions.glide}",
             ],
             'test': [
                     'junit': "junit:junit:4.12",

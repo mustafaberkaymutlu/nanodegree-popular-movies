@@ -7,13 +7,15 @@ import android.widget.TextView;
 
 import net.epictimes.nanodegreepopularmovies.R;
 import net.epictimes.nanodegreepopularmovies.data.model.Movie;
+import net.epictimes.nanodegreepopularmovies.data.remote.Endpoint;
+import net.epictimes.nanodegreepopularmovies.util.GlideApp;
 
 /**
  * Created by Mustafa Berkay Mutlu on 4.03.2018.
  */
 
 class MovieViewHolder extends ViewHolder {
-    public static final int LAYOUT_ID = R.layout.movie_item;
+    static final int LAYOUT_ID = R.layout.movie_item;
 
     private final ImageView imageViewPoster;
     private final TextView textViewTitle;
@@ -27,5 +29,9 @@ class MovieViewHolder extends ViewHolder {
 
     void bindTo(Movie movie) {
         textViewTitle.setText(movie.getTitle());
+
+        GlideApp.with(imageViewPoster.getContext())
+                .load(Endpoint.POSTER_BASE + movie.getPosterPath())
+                .into(imageViewPoster);
     }
 }

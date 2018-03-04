@@ -59,6 +59,10 @@ dependencies {
     implementation deps.retrofit.gson
     implementation deps.okHttpLogginInterceptor
 
+    // Glide
+    implementation deps.glide.runtime
+    annotationProcessor deps.glide.compiler
+
     // Leak Canary
     debugImplementation deps.leakCanary.real
     releaseImplementation deps.leakCanary.noOp
