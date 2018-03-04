@@ -15,13 +15,15 @@ public interface ListContract {
 
         void displayMovies(PagedMovies pagedMovies);
 
-        void displayGettingPopuparMoviesError();
+        void displayGettingPopularMoviesError();
 
     }
 
     interface Presenter extends MvpPresenter<View> {
 
         void getPopularMovies();
+
+        void loadMore();
 
     }
 

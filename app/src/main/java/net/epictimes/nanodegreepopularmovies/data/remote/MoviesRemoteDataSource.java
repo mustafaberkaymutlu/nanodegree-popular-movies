@@ -25,8 +25,8 @@ public class MoviesRemoteDataSource implements MoviesDataSource {
     }
 
     @Override
-    public void getPopularMovies(final GetPopularMoviesCallback callback) {
-        services.getPopularMovies()
+    public void getPopularMovies(int page, final GetPopularMoviesCallback callback) {
+        services.getPopularMovies(page)
                 .enqueue(new Callback<PagedMovies>() {
                     @Override
                     public void onResponse(@NonNull Call<PagedMovies> call,

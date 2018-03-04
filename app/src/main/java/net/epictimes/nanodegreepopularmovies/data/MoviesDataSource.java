@@ -8,7 +8,7 @@ import net.epictimes.nanodegreepopularmovies.data.model.PagedMovies;
 
 public interface MoviesDataSource {
 
-    void getPopularMovies(GetPopularMoviesCallback callback);
+    void getPopularMovies(int page, GetPopularMoviesCallback callback);
 
     interface GetPopularMoviesCallback {
 

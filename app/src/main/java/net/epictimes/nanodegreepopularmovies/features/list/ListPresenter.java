@@ -1,7 +1,5 @@
 package net.epictimes.nanodegreepopularmovies.features.list;
 
-import android.support.annotation.NonNull;
-
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 
 import net.epictimes.nanodegreepopularmovies.data.MoviesDataSource;
@@ -15,6 +13,7 @@ import javax.inject.Inject;
  */
 
 class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListContract.Presenter {
+    private int currentPageIndex = 1;
 
     @Repository
     @Inject
@@ -26,26 +25,35 @@ class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListC
 
     @Override
     public void getPopularMovies() {
-        moviesDataSource.getPopularMovies(new MoviesDataSource.GetPopularMoviesCallback() {
-            @Override
-            public void onPopularMoviesDataReceived(final PagedMovies pagedMovies) {
-                ifViewAttached(new ViewAction<ListContract.View>() {
+        moviesDataSource.getPopularMovies(currentPageIndex,
+                new MoviesDataSource.GetPopularMoviesCallback() {
                     @Override
-                    public void run(@NonNull ListContract.View view) {
-                        view.displayMovies(pagedMovies);
+                    public void onPopularMoviesDataReceived(final PagedMovies pagedMovies) {
+                        ifViewAttached(view -> view.displayMovies(pagedMovies));
                     }
-                });
-            }
 
-            @Override
-            public void onPopularMoviesDataNotAvailable() {
-                ifViewAttached(new ViewAction<ListContract.View>() {
                     @Override
-                    public void run(@NonNull ListContract.View view) {
-                        view.displayGettingPopuparMoviesError();
+                    public void onPopularMoviesDataNotAvailable() {
+                        ifViewAttached(ListContract.View::displayGettingPopularMoviesError);
                     }
                 });
-            }
-        });
+    }
+
+    @Override
+    public void loadMore() {
+        moviesDataSource.getPopularMovies(currentPageIndex + 1,
+                new MoviesDataSource.GetPopularMoviesCallback() {
+                    @Override
+                    public void onPopularMoviesDataReceived(final PagedMovies pagedMovies) {
+                        currentPageIndex++;
+
+                        ifViewAttached(view -> view.displayMovies(pagedMovies));
+                    }
+
+                    @Override
+                    public void onPopularMoviesDataNotAvailable() {
+                        ifViewAttached(ListContract.View::displayGettingPopularMoviesError);
+                    }
+                });
     }
 }

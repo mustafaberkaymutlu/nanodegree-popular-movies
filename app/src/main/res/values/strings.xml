@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Nanodegree Popular Movies</string>
+
+    <string name="error_getting_popular_movies">Error while getting popular movies </string>
 </resources>

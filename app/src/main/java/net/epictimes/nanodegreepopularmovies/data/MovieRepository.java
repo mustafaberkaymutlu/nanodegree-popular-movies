@@ -19,7 +19,7 @@ public class MovieRepository implements MoviesDataSource {
     }
 
     @Override
-    public void getPopularMovies(GetPopularMoviesCallback callback) {
-        remoteDataSource.getPopularMovies(callback);
+    public void getPopularMovies(int page, GetPopularMoviesCallback callback) {
+        remoteDataSource.getPopularMovies(page, callback);
     }
 }
