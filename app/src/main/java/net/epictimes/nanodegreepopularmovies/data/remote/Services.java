@@ -17,6 +17,9 @@ public interface Services {
     @GET("/3/movie/popular")
     Call<PagedMovies> getPopularMovies(@Query("page") int page);
 
+    @GET("/3/movie/top_rated")
+    Call<PagedMovies> getTopRatedMovies(@Query("page") int page);
+
     @GET("/3/movie/{movie-id}")
     Call<Movie> getMovie(@Path("movie-id") int movieId);
 

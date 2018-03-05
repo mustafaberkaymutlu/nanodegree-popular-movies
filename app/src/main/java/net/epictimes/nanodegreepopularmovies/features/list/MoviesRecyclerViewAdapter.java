@@ -50,6 +50,12 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MovieViewHol
         notifyItemRangeInserted(previousSize, newMovies.size());
     }
 
+    void clear() {
+        final int previousSize = movies.size();
+        movies.clear();
+        notifyItemRangeRemoved(0, previousSize);
+    }
+
     void setMovieClickListener(@Nullable MovieClickListener movieClickListener) {
         this.movieClickListener = movieClickListener;
     }

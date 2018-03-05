@@ -16,6 +16,8 @@ public interface ListContract {
 
         void displayMovies(PagedMovies pagedMovies);
 
+        void clearMovies();
+
         void displayGettingPopularMoviesError();
 
         void goToMovieDetail(int movieId);
@@ -24,9 +26,11 @@ public interface ListContract {
 
     interface Presenter extends MvpPresenter<View> {
 
-        void getPopularMovies();
+        void getMovies();
 
         void loadMore();
+
+        void switchSortCriteria(SortCriteria sortCriteria);
 
         void userClickedMovie(Movie movie);
 

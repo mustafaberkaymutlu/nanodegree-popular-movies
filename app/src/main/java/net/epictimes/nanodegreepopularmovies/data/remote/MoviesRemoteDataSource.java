@@ -26,7 +26,7 @@ public class MoviesRemoteDataSource implements MoviesDataSource {
     }
 
     @Override
-    public void getPopularMovies(int page, final GetPopularMoviesCallback callback) {
+    public void getPopularMovies(int page, final GetMoviesCallback callback) {
         services.getPopularMovies(page)
                 .enqueue(new Callback<PagedMovies>() {
                     @Override
@@ -35,16 +35,40 @@ public class MoviesRemoteDataSource implements MoviesDataSource {
                         final PagedMovies body = response.body();
 
                         if (response.isSuccessful() && body != null) {
-                            callback.onPopularMoviesDataReceived(body);
+                            callback.onMoviesReceived(body);
                         } else {
-                            callback.onPopularMoviesDataNotAvailable();
+                            callback.onMoviesNotAvailable();
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<PagedMovies> call,
                                           @NonNull Throwable t) {
-                        callback.onPopularMoviesDataNotAvailable();
+                        callback.onMoviesNotAvailable();
+                    }
+                });
+    }
+
+    @Override
+    public void getTopRatedMovies(int page, GetMoviesCallback callback) {
+        services.getTopRatedMovies(page)
+                .enqueue(new Callback<PagedMovies>() {
+                    @Override
+                    public void onResponse(@NonNull Call<PagedMovies> call,
+                                           @NonNull Response<PagedMovies> response) {
+                        final PagedMovies body = response.body();
+
+                        if (response.isSuccessful() && body != null) {
+                            callback.onMoviesReceived(body);
+                        } else {
+                            callback.onMoviesNotAvailable();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<PagedMovies> call,
+                                          @NonNull Throwable t) {
+                        callback.onMoviesNotAvailable();
                     }
                 });
     }

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.epictimes.nanodegreepopularmovies.R;
@@ -25,6 +27,7 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
     ListContract.Presenter listPresenter;
 
     private MoviesRecyclerViewAdapter recyclerViewAdapter;
+    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 
     @NonNull
     @Override
@@ -45,7 +48,7 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
         recyclerViewAdapter = new MoviesRecyclerViewAdapter();
         recyclerViewAdapter.setMovieClickListener(movie -> presenter.userClickedMovie(movie));
 
-        final EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener =
+        endlessRecyclerViewScrollListener =
                 new EndlessRecyclerViewScrollListener(gridLayoutManager) {
                     @Override
                     public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -58,12 +61,38 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
         recyclerViewMovies.setAdapter(recyclerViewAdapter);
         recyclerViewMovies.setHasFixedSize(true);
 
-        presenter.getPopularMovies();
+        presenter.getMovies();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_switch_popular:
+                presenter.switchSortCriteria(SortCriteria.POPULAR);
+                return true;
+            case R.id.action_switch_top_rated:
+                presenter.switchSortCriteria(SortCriteria.TOP_RATED);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public void displayMovies(PagedMovies pagedMovies) {
         recyclerViewAdapter.addAll(pagedMovies.getResults());
+    }
+
+    @Override
+    public void clearMovies() {
+        recyclerViewAdapter.clear();
+        endlessRecyclerViewScrollListener.resetState();
     }
 
     @Override

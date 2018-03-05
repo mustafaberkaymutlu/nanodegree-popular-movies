@@ -14,7 +14,12 @@ import javax.inject.Inject;
  */
 
 class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListContract.Presenter {
-    private int currentPageIndex = 1;
+    private static final int INITIAL_PAGE_INDEX = 0;
+
+    private int currentPageIndex = INITIAL_PAGE_INDEX;
+    private SortCriteria currentSortCriteria = SortCriteria.POPULAR;
+
+    private final MoviesDataSource.GetMoviesCallback getMoviesCallback = new MyGetMoviesCallback();
 
     @Repository
     @Inject
@@ -25,41 +30,59 @@ class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListC
     }
 
     @Override
-    public void getPopularMovies() {
-        moviesDataSource.getPopularMovies(currentPageIndex,
-                new MoviesDataSource.GetPopularMoviesCallback() {
-                    @Override
-                    public void onPopularMoviesDataReceived(final PagedMovies pagedMovies) {
-                        ifViewAttached(view -> view.displayMovies(pagedMovies));
-                    }
-
-                    @Override
-                    public void onPopularMoviesDataNotAvailable() {
-                        ifViewAttached(ListContract.View::displayGettingPopularMoviesError);
-                    }
-                });
+    public void getMovies() {
+        getMoviesBySortCriteria();
     }
 
     @Override
     public void loadMore() {
-        moviesDataSource.getPopularMovies(currentPageIndex + 1,
-                new MoviesDataSource.GetPopularMoviesCallback() {
-                    @Override
-                    public void onPopularMoviesDataReceived(final PagedMovies pagedMovies) {
-                        currentPageIndex++;
+        getMoviesBySortCriteria();
+    }
 
-                        ifViewAttached(view -> view.displayMovies(pagedMovies));
-                    }
+    @Override
+    public void switchSortCriteria(SortCriteria sortCriteria) {
+        if (currentSortCriteria == sortCriteria) {
+            return;
+        }
 
-                    @Override
-                    public void onPopularMoviesDataNotAvailable() {
-                        ifViewAttached(ListContract.View::displayGettingPopularMoviesError);
-                    }
-                });
+        this.currentSortCriteria = sortCriteria;
+        this.currentPageIndex = INITIAL_PAGE_INDEX;
+
+        getMoviesBySortCriteria();
     }
 
     @Override
     public void userClickedMovie(Movie movie) {
         ifViewAttached(view -> view.goToMovieDetail(movie.getId()));
+    }
+
+    private void getMoviesBySortCriteria() {
+        switch (currentSortCriteria) {
+            case POPULAR:
+                moviesDataSource.getPopularMovies(currentPageIndex + 1, getMoviesCallback);
+                break;
+            case TOP_RATED:
+                moviesDataSource.getTopRatedMovies(currentPageIndex + 1, getMoviesCallback);
+                break;
+        }
+    }
+
+    private class MyGetMoviesCallback implements MoviesDataSource.GetMoviesCallback {
+        @Override
+        public void onMoviesReceived(final PagedMovies pagedMovies) {
+            currentPageIndex = pagedMovies.getPage();
+
+            final boolean isFirstPage = (currentPageIndex == INITIAL_PAGE_INDEX + 1);
+            if (isFirstPage) {
+                ifViewAttached(ListContract.View::clearMovies);
+            }
+
+            ifViewAttached(view -> view.displayMovies(pagedMovies));
+        }
+
+        @Override
+        public void onMoviesNotAvailable() {
+            ifViewAttached(ListContract.View::displayGettingPopularMoviesError);
+        }
     }
 }

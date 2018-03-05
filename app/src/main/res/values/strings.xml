@@ -10,4 +10,8 @@
     <string name="detail_label_overview">Overview</string>
     <string name="detail_label_release_date">Release Date</string>
     <string name="detail_label_vote_average">Vote Average</string>
+
+    <string name="action_change_sorting">Change Sorting</string>
+    <string name="action_switch_to_popular">Popular</string>
+    <string name="action_switch_to_top_rated">Top Rated</string>
 </resources>

@@ -26,17 +26,33 @@ public class MovieRepository implements MoviesDataSource {
     }
 
     @Override
-    public void getPopularMovies(int page, GetPopularMoviesCallback callback) {
-        remoteDataSource.getPopularMovies(page, new GetPopularMoviesCallback() {
+    public void getPopularMovies(int page, GetMoviesCallback callback) {
+        remoteDataSource.getPopularMovies(page, new GetMoviesCallback() {
             @Override
-            public void onPopularMoviesDataReceived(PagedMovies pagedMovies) {
+            public void onMoviesReceived(PagedMovies pagedMovies) {
                 addMoviesToCache(pagedMovies.getResults());
-                callback.onPopularMoviesDataReceived(pagedMovies);
+                callback.onMoviesReceived(pagedMovies);
             }
 
             @Override
-            public void onPopularMoviesDataNotAvailable() {
-                callback.onPopularMoviesDataNotAvailable();
+            public void onMoviesNotAvailable() {
+                callback.onMoviesNotAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void getTopRatedMovies(int page, GetMoviesCallback callback) {
+        remoteDataSource.getTopRatedMovies(page, new GetMoviesCallback() {
+            @Override
+            public void onMoviesReceived(PagedMovies pagedMovies) {
+                addMoviesToCache(pagedMovies.getResults());
+                callback.onMoviesReceived(pagedMovies);
+            }
+
+            @Override
+            public void onMoviesNotAvailable() {
+                callback.onMoviesNotAvailable();
             }
         });
     }
