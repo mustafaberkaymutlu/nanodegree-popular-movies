@@ -2,6 +2,7 @@
     <string name="app_name">Nanodegree Popular Movies</string>
 
     <string name="error_getting_popular_movies">Error while getting popular movies</string>
+    <string name="error_getting_top_rated_movies">Error while getting top rated movies</string>
     <string name="error_displaying_movie">Error while displaying movie</string>
 
     <string name="content_desc_movie_poster">Movie Poster</string>

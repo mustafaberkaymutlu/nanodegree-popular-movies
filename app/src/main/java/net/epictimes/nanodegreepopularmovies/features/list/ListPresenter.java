@@ -96,7 +96,7 @@ class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListC
         public void onMoviesNotAvailable() {
             ifViewAttached(view -> {
                 view.hideLoading();
-                view.displayGettingPopularMoviesError();
+                view.displayGettingPopularMoviesError(currentSortCriteria);
             });
         }
     }

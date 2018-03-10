@@ -115,8 +115,15 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
     }
 
     @Override
-    public void displayGettingPopularMoviesError() {
-        Toast.makeText(this, R.string.error_getting_popular_movies, Toast.LENGTH_SHORT).show();
+    public void displayGettingPopularMoviesError(SortCriteria sortCriteria) {
+        switch (sortCriteria) {
+            case POPULAR:
+                Toast.makeText(this, R.string.error_getting_popular_movies, Toast.LENGTH_SHORT).show();
+                break;
+            case TOP_RATED:
+                Toast.makeText(this, R.string.error_getting_top_rated_movies, Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     @Override

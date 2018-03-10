@@ -22,7 +22,7 @@ public interface ListContract {
 
         void hideLoading();
 
-        void displayGettingPopularMoviesError();
+        void displayGettingPopularMoviesError(SortCriteria sortCriteria);
 
         void goToMovieDetail(int movieId);
 
