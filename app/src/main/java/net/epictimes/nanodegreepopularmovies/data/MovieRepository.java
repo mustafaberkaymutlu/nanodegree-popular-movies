@@ -1,11 +1,10 @@
 package net.epictimes.nanodegreepopularmovies.data;
 
+import android.util.SparseArray;
+
 import net.epictimes.nanodegreepopularmovies.data.model.Movie;
 import net.epictimes.nanodegreepopularmovies.data.model.PagedMovies;
 import net.epictimes.nanodegreepopularmovies.di.qualifier.RemoteDataSource;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -14,8 +13,7 @@ import javax.inject.Inject;
  */
 
 public class MovieRepository implements MoviesDataSource {
-
-    private final Map<Integer, Movie> cache = new HashMap<>();
+    private final SparseArray<Movie> cache = new SparseArray<>();
 
     @RemoteDataSource
     @Inject
@@ -59,10 +57,12 @@ public class MovieRepository implements MoviesDataSource {
 
     @Override
     public void getMovieById(int movieId, GetMovieCallback callback) {
-        if (cache.containsKey(movieId)) {
-            callback.onMovieReceived(cache.get(movieId));
-        } else {
+        final Movie movie = cache.get(movieId);
+
+        if (movie == null) {
             remoteDataSource.getMovieById(movieId, callback);
+        } else {
+            callback.onMovieReceived(movie);
         }
     }
 

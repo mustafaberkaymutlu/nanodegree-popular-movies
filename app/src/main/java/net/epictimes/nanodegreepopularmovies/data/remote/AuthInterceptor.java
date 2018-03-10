@@ -13,7 +13,7 @@ import okhttp3.Response;
  * Created by Mustafa Berkay Mutlu on 3.03.2018.
  */
 
-public class AuthInterceptor implements Interceptor {
+class AuthInterceptor implements Interceptor {
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();

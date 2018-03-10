@@ -15,6 +15,8 @@ import javax.inject.Inject;
 public class DetailPresenter extends MvpBasePresenter<DetailContract.View>
         implements DetailContract.Presenter {
 
+    private MoviesDataSource.GetMovieCallback getMovieCallback = new MyGetMovieCallback();
+
     @Repository
     @Inject
     MoviesDataSource moviesRepository;
@@ -30,16 +32,18 @@ public class DetailPresenter extends MvpBasePresenter<DetailContract.View>
             return;
         }
 
-        moviesRepository.getMovieById(movieId, new MoviesDataSource.GetMovieCallback() {
-            @Override
-            public void onMovieReceived(Movie movie) {
-                ifViewAttached(view -> view.displayMovie(movie));
-            }
+        moviesRepository.getMovieById(movieId, getMovieCallback);
+    }
 
-            @Override
-            public void onMovieNotAvailable() {
-                ifViewAttached(DetailContract.View::displayMovieError);
-            }
-        });
+    private class MyGetMovieCallback implements MoviesDataSource.GetMovieCallback {
+        @Override
+        public void onMovieReceived(Movie movie) {
+            ifViewAttached(view -> view.displayMovie(movie));
+        }
+
+        @Override
+        public void onMovieNotAvailable() {
+            ifViewAttached(DetailContract.View::displayMovieError);
+        }
     }
 }
