@@ -34,7 +34,7 @@ class MovieViewHolder extends ViewHolder {
         textViewTitle.setText(movie.getTitle());
 
         GlideApp.with(imageViewPoster.getContext())
-                .load(Endpoint.POSTER_BASE + movie.getPosterPath())
+                .load(Endpoint.POSTER_BASE_MID + movie.getPosterPath())
                 .into(imageViewPoster);
     }
 }

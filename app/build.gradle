@@ -42,6 +42,7 @@ dependencies {
     implementation deps.support.constraintLayout
     implementation deps.support.recyclerView
     implementation deps.support.design
+    implementation deps.support.palette
 
     // Dagger
     implementation deps.dagger.runtime

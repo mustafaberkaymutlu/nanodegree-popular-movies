@@ -2,13 +2,25 @@ package net.epictimes.nanodegreepopularmovies.features.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import net.epictimes.nanodegreepopularmovies.R;
 import net.epictimes.nanodegreepopularmovies.data.model.Movie;
@@ -56,8 +68,6 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        final int movieId = getIntent().getIntExtra(KEY_MOVIE_ID, -1);
-
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -68,13 +78,28 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
         textViewReleaseDate = findViewById(R.id.textViewReleaseDate);
         textViewVoteAverage = findViewById(R.id.textViewVoteAverage);
 
+        final int movieId = getIntent().getIntExtra(KEY_MOVIE_ID, -1);
+
         presenter.getMovie(movieId);
     }
 
     @Override
     public void displayMovie(Movie movie) {
         GlideApp.with(this)
-                .load(Endpoint.POSTER_BASE + movie.getPosterPath())
+                .asBitmap()
+                .load(Endpoint.POSTER_BASE_BIG + movie.getPosterPath())
+                .listener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        createPaletteAsync(resource);
+                        return false;
+                    }
+                })
                 .into(imageViewPoster);
 
         collapsingToolbarLayout.setTitle(movie.getTitle());
@@ -88,5 +113,35 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
     @Override
     public void displayMovieError() {
         Toast.makeText(this, R.string.error_displaying_movie, Toast.LENGTH_SHORT).show();
+    }
+
+    private void createPaletteAsync(Bitmap bitmap) {
+        Palette.from(bitmap).generate(p -> {
+            @ColorInt final int scrimColor = p.getVibrantColor(ContextCompat.getColor(this,
+                    R.color.colorPrimary));
+
+            @ColorInt final int statusBarColor = p.getDarkVibrantColor(ContextCompat.getColor(this,
+                    R.color.colorPrimaryDark));
+
+            collapsingToolbarLayout.setContentScrimColor(scrimColor);
+            setStatusBarColor(statusBarColor);
+        });
+    }
+
+    private void setStatusBarColor(@ColorInt int color) {
+        final Window window = getWindow();
+
+        if (window == null) {
+            return;
+        }
+
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        // finally change the color
+        window.setStatusBarColor(color);
     }
 }
