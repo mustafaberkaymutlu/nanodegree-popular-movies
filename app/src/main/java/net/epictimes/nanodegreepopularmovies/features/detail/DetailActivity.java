@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +37,7 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
     @Inject
     DetailContract.Presenter detailPresenter;
 
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     private ImageView imageViewPoster;
     private TextView textViewTitle;
     private TextView textViewOverview;
@@ -55,6 +58,10 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
 
         final int movieId = getIntent().getIntExtra(KEY_MOVIE_ID, -1);
 
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         imageViewPoster = findViewById(R.id.imageViewPoster);
         textViewTitle = findViewById(R.id.textViewTitle);
         textViewOverview = findViewById(R.id.textViewOverview);
@@ -69,6 +76,8 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
         GlideApp.with(this)
                 .load(Endpoint.POSTER_BASE + movie.getPosterPath())
                 .into(imageViewPoster);
+
+        collapsingToolbarLayout.setTitle(movie.getTitle());
 
         textViewTitle.setText(movie.getTitle());
         textViewOverview.setText(movie.getOverview());

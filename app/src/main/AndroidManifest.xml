@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".features.list.ListActivity">
+        <activity
+            android:name=".features.list.ListActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +23,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".features.detail.DetailActivity" />
+        <activity
+            android:name=".features.detail.DetailActivity"
+            android:parentActivityName=".features.list.ListActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".features.list.ListActivity" />
+        </activity>
 
     </application>
 
