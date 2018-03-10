@@ -31,6 +31,7 @@ class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListC
 
     @Override
     public void getMovies() {
+        ifViewAttached(ListContract.View::showLoading);
         getMoviesBySortCriteria();
     }
 
@@ -48,12 +49,20 @@ class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListC
         this.currentSortCriteria = sortCriteria;
         this.currentPageIndex = INITIAL_PAGE_INDEX;
 
+        ifViewAttached(ListContract.View::showLoading);
         getMoviesBySortCriteria();
     }
 
     @Override
     public void userClickedMovie(Movie movie) {
         ifViewAttached(view -> view.goToMovieDetail(movie.getId()));
+    }
+
+    @Override
+    public void userRefreshed() {
+        this.currentPageIndex = INITIAL_PAGE_INDEX;
+
+        getMoviesBySortCriteria();
     }
 
     private void getMoviesBySortCriteria() {
@@ -72,17 +81,23 @@ class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListC
         public void onMoviesReceived(final PagedMovies pagedMovies) {
             currentPageIndex = pagedMovies.getPage();
 
-            final boolean isFirstPage = (currentPageIndex == INITIAL_PAGE_INDEX + 1);
-            if (isFirstPage) {
-                ifViewAttached(ListContract.View::clearMovies);
-            }
+            ifViewAttached(view -> {
+                final boolean isFirstPage = (currentPageIndex == INITIAL_PAGE_INDEX + 1);
+                if (isFirstPage) {
+                    view.clearMovies();
+                }
 
-            ifViewAttached(view -> view.displayMovies(pagedMovies));
+                view.hideLoading();
+                view.displayMovies(pagedMovies);
+            });
         }
 
         @Override
         public void onMoviesNotAvailable() {
-            ifViewAttached(ListContract.View::displayGettingPopularMoviesError);
+            ifViewAttached(view -> {
+                view.hideLoading();
+                view.displayGettingPopularMoviesError();
+            });
         }
     }
 }

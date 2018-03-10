@@ -18,6 +18,10 @@ public interface ListContract {
 
         void clearMovies();
 
+        void showLoading();
+
+        void hideLoading();
+
         void displayGettingPopularMoviesError();
 
         void goToMovieDetail(int movieId);
@@ -34,6 +38,7 @@ public interface ListContract {
 
         void userClickedMovie(Movie movie);
 
+        void userRefreshed();
     }
 
 }

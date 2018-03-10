@@ -3,6 +3,7 @@ package net.epictimes.nanodegreepopularmovies.features.list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -28,6 +29,7 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
 
     private MoviesRecyclerViewAdapter recyclerViewAdapter;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+    private SwipeRefreshLayout swipeRefreshMovies;
 
     @NonNull
     @Override
@@ -40,6 +42,9 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        swipeRefreshMovies = findViewById(R.id.swipeRefreshMovies);
+        swipeRefreshMovies.setOnRefreshListener(() -> presenter.userRefreshed());
 
         final RecyclerView recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
         final GridLayoutManager gridLayoutManager =
@@ -93,6 +98,16 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
     public void clearMovies() {
         recyclerViewAdapter.clear();
         endlessRecyclerViewScrollListener.resetState();
+    }
+
+    @Override
+    public void showLoading() {
+        swipeRefreshMovies.setRefreshing(true);
+    }
+
+    @Override
+    public void hideLoading() {
+        swipeRefreshMovies.setRefreshing(false);
     }
 
     @Override
