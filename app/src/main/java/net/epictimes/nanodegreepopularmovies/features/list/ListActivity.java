@@ -7,8 +7,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import net.epictimes.nanodegreepopularmovies.R;
@@ -50,6 +52,15 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
         swipeRefreshMovies = findViewById(R.id.swipeRefreshMovies);
         swipeRefreshMovies.setOnRefreshListener(() -> presenter.userRefreshed());
 
+        final Spinner spinnerSortCriteria = findViewById(R.id.spinnerSortCriteria);
+
+        final ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.sort_criteria, R.layout.spinner_item_sort_criteria);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSortCriteria.setAdapter(spinnerAdapter);
+
+        spinnerSortCriteria.setOnItemSelectedListener(new MyOnItemSelectedListener());
+
         final RecyclerView recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
         final GridLayoutManager gridLayoutManager =
                 new GridLayoutManager(this, MOVIES_GRID_SPAN_COUNT);
@@ -71,26 +82,6 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
         recyclerViewMovies.setHasFixedSize(true);
 
         presenter.getMovies();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_switch_popular:
-                presenter.switchSortCriteria(SortCriteria.POPULAR);
-                return true;
-            case R.id.action_switch_top_rated:
-                presenter.switchSortCriteria(SortCriteria.TOP_RATED);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
@@ -130,5 +121,24 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
     public void goToMovieDetail(int movieId) {
         final Intent detailIntent = DetailActivity.newIntent(this, movieId);
         startActivity(detailIntent);
+    }
+
+    private class MyOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    presenter.switchSortCriteria(SortCriteria.POPULAR);
+                    break;
+                case 1:
+                    presenter.switchSortCriteria(SortCriteria.TOP_RATED);
+                    break;
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            // no-op
+        }
     }
 }
