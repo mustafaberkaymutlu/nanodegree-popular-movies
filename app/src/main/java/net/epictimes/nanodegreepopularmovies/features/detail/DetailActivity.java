@@ -8,9 +8,11 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -50,6 +52,7 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
     DetailContract.Presenter detailPresenter;
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private FloatingActionButton fabFavorite;
     private ImageView imageViewPoster;
     private TextView textViewTitle;
     private TextView textViewOverview;
@@ -72,11 +75,17 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
         setSupportActionBar(toolbar);
 
         collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
+        fabFavorite = findViewById(R.id.fabFavorite);
         imageViewPoster = findViewById(R.id.imageViewPoster);
         textViewTitle = findViewById(R.id.textViewTitle);
         textViewOverview = findViewById(R.id.textViewOverview);
         textViewReleaseDate = findViewById(R.id.textViewReleaseDate);
         textViewVoteAverage = findViewById(R.id.textViewVoteAverage);
+
+        fabFavorite.setOnClickListener(v -> {
+            Toast.makeText(DetailActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+            // TODO implement adding/removing favorites
+        });
 
         final int movieId = getIntent().getIntExtra(KEY_MOVIE_ID, -1);
 
