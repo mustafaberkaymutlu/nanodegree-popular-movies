@@ -4,13 +4,20 @@
     <string name="error_getting_popular_movies">Error while getting popular movies</string>
     <string name="error_getting_top_rated_movies">Error while getting top rated movies</string>
     <string name="error_displaying_movie">Error while displaying movie</string>
+    <string name="error_displaying_movie_overview">Error while displaying movie overview</string>
+    <string name="error_displaying_movie_trailers">Error while displaying movie trailers</string>
+    <string name="error_displaying_movie_reviews">Error while displaying movie reviews</string>
 
+    <string name="content_desc_movie_backdrop">Movie Backdrop</string>
     <string name="content_desc_movie_poster">Movie Poster</string>
 
     <string name="detail_label_title">Title</string>
     <string name="detail_label_overview">Overview</string>
     <string name="detail_label_release_date">Release Date</string>
     <string name="detail_label_vote_average">Vote Average</string>
+
+    <string name="action_title_add_favorite">Add to Favorites</string>
+    <string name="action_title_remove_from_favorite">Remove from Favorites</string>
 
     <string-array name="sort_criteria">
         <item>Popular</item>

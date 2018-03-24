@@ -23,6 +23,9 @@ public class Movie {
     @SerializedName("poster_path")
     private String posterPath;
 
+    @SerializedName("backdrop_path")
+    private String backdropPath;
+
     @SerializedName("vote_average")
     private double voteAverage;
 
@@ -44,6 +47,10 @@ public class Movie {
 
     public String getPosterPath() {
         return posterPath;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
     }
 
     public double getVoteAverage() {

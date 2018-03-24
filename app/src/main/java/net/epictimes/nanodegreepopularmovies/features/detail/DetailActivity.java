@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -33,13 +35,16 @@ import net.epictimes.nanodegreepopularmovies.util.GlideApp;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
 /**
  * Created by Mustafa Berkay Mutlu on 4.03.2018.
  */
 
 public class DetailActivity extends BaseActivity<DetailContract.View, DetailContract.Presenter>
-        implements DetailContract.View {
+        implements DetailContract.View, HasSupportFragmentInjector {
     private static final String KEY_MOVIE_ID = "movie_id";
 
     public static Intent newIntent(@NonNull Context context, int movieId) {
@@ -49,13 +54,15 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
     }
 
     @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+
+    @Inject
     DetailContract.Presenter detailPresenter;
 
-    private CollapsingToolbarLayout collapsingToolbarLayout;
-    private FloatingActionButton fabFavorite;
+    private Toolbar toolbar;
     private ImageView imageViewPoster;
+    private ImageView imageViewBackdrop;
     private TextView textViewTitle;
-    private TextView textViewOverview;
     private TextView textViewReleaseDate;
     private TextView textViewVoteAverage;
 
@@ -71,25 +78,54 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        final Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
-        fabFavorite = findViewById(R.id.fabFavorite);
+        final TabLayout tabLayout = findViewById(R.id.tabLayout);
+        final ViewPager viewPager = findViewById(R.id.viewPager);
+        imageViewBackdrop = findViewById(R.id.imageViewBackdrop);
         imageViewPoster = findViewById(R.id.imageViewPoster);
         textViewTitle = findViewById(R.id.textViewTitle);
-        textViewOverview = findViewById(R.id.textViewOverview);
         textViewReleaseDate = findViewById(R.id.textViewReleaseDate);
         textViewVoteAverage = findViewById(R.id.textViewVoteAverage);
 
-        fabFavorite.setOnClickListener(v -> {
-            Toast.makeText(DetailActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
-            // TODO implement adding/removing favorites
-        });
-
         final int movieId = getIntent().getIntExtra(KEY_MOVIE_ID, -1);
 
+        viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), movieId));
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(tabLayout.getTabCount() - 1);
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(TabsPagerAdapter.getIconRes(i));
+        }
+
         presenter.getMovie(movieId);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail, menu);
+
+        // TODO set favorite status of movie
+        final MenuItem item = menu.findItem(R.id.action_favorite);
+        item.setIcon(R.drawable.ic_favorite_border_white_24px);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_favorite: {
+                Toast.makeText(DetailActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+                // TODO implement adding/removing favorites
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
     }
 
     @Override
@@ -99,22 +135,30 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
                 .load(Endpoint.POSTER_BASE_BIG + movie.getPosterPath())
                 .listener(new RequestListener<Bitmap>() {
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                    public boolean onLoadFailed(@Nullable GlideException e,
+                                                Object model,
+                                                Target<Bitmap> target,
+                                                boolean isFirstResource) {
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                    public boolean onResourceReady(Bitmap resource,
+                                                   Object model,
+                                                   Target<Bitmap> target,
+                                                   DataSource dataSource,
+                                                   boolean isFirstResource) {
                         createPaletteAsync(resource);
                         return false;
                     }
                 })
                 .into(imageViewPoster);
 
-        collapsingToolbarLayout.setTitle(movie.getTitle());
+        GlideApp.with(this)
+                .load(Endpoint.POSTER_BASE_BIG + movie.getBackdropPath())
+                .into(imageViewBackdrop);
 
         textViewTitle.setText(movie.getTitle());
-        textViewOverview.setText(movie.getOverview());
         textViewReleaseDate.setText(movie.getReleaseDate());
         textViewVoteAverage.setText(String.valueOf(movie.getVoteAverage()));
     }
@@ -132,7 +176,7 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
             @ColorInt final int statusBarColor = p.getDarkVibrantColor(ContextCompat.getColor(this,
                     R.color.colorPrimaryDark));
 
-            collapsingToolbarLayout.setContentScrimColor(scrimColor);
+            toolbar.setBackgroundColor(scrimColor);
             setStatusBarColor(statusBarColor);
         });
     }
@@ -152,5 +196,10 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
 
         // finally change the color
         window.setStatusBarColor(color);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
     }
 }
