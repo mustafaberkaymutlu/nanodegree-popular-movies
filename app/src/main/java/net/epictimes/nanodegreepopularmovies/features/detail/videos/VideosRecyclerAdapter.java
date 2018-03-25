@@ -58,9 +58,9 @@ class VideosRecyclerAdapter extends RecyclerView.Adapter<VideoViewHolder> {
         return videos.size();
     }
 
-    void addAll(Collection<Video> videos) {
-        this.videos.clear();
-        this.videos.addAll(videos);
+    void addAll(Collection<Video> newVideos) {
+        videos.clear();
+        videos.addAll(newVideos);
         notifyDataSetChanged();
     }
 

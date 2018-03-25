@@ -24,4 +24,9 @@ public abstract class RepositoryModule {
     @Binds
     abstract VideosDataSource provideVideosRepository(VideosRepository repository);
 
+    @Repository
+    @Singleton
+    @Binds
+    abstract ReviewsDataSource provideReviewsRepository(ReviewsRepository repository);
+
 }

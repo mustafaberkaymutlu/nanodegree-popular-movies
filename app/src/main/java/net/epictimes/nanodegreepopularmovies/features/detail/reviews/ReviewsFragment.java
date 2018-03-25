@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,8 @@ import android.widget.Toast;
 import com.hannesdorfmann.mosby3.mvp.MvpFragment;
 
 import net.epictimes.nanodegreepopularmovies.R;
+import net.epictimes.nanodegreepopularmovies.data.model.PagedReviews;
+import net.epictimes.nanodegreepopularmovies.util.EndlessRecyclerViewScrollListener;
 import net.epictimes.nanodegreepopularmovies.util.Preconditions;
 
 import javax.inject.Inject;
@@ -30,6 +35,8 @@ public class ReviewsFragment extends MvpFragment<ReviewsContract.View, ReviewsCo
     ReviewsContract.Presenter reviewsPresenter;
 
     private int movieId;
+
+    private ReviewsRecyclerAdapter adapter;
 
     public static ReviewsFragment newInstance(int movieId) {
         final ReviewsFragment fragment = new ReviewsFragment();
@@ -71,12 +78,36 @@ public class ReviewsFragment extends MvpFragment<ReviewsContract.View, ReviewsCo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        RecyclerView recyclerViewReviews = view.findViewById(R.id.recyclerViewReviews);
+
+        final Context context = getContext();
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        adapter = new ReviewsRecyclerAdapter();
+
+        final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
+                linearLayoutManager.getOrientation());
+
+        dividerItemDecoration.setDrawable(context.getDrawable(R.drawable.videos_divider));
+
+        final EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener =
+                new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        presenter.loadMore();
+                    }
+                };
+
+        recyclerViewReviews.addItemDecoration(dividerItemDecoration);
+        recyclerViewReviews.setLayoutManager(linearLayoutManager);
+        recyclerViewReviews.addOnScrollListener(endlessRecyclerViewScrollListener);
+        recyclerViewReviews.setAdapter(adapter);
+
         presenter.getReviews(movieId);
     }
 
     @Override
-    public void displayReviews() {
-        // TODO display reviews
+    public void displayReviews(PagedReviews pagedReviews) {
+        adapter.addAll(pagedReviews.getReviews());
     }
 
     @Override

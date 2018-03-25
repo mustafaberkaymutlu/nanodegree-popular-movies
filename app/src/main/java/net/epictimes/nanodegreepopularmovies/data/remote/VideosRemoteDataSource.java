@@ -19,7 +19,7 @@ public class VideosRemoteDataSource implements VideosDataSource {
     Services services;
 
     @Inject
-    public VideosRemoteDataSource() {
+    VideosRemoteDataSource() {
     }
 
     @Override

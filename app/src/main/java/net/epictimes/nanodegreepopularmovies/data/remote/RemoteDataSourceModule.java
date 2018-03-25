@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import net.epictimes.nanodegreepopularmovies.BuildConfig;
 import net.epictimes.nanodegreepopularmovies.data.MoviesDataSource;
+import net.epictimes.nanodegreepopularmovies.data.ReviewsDataSource;
 import net.epictimes.nanodegreepopularmovies.data.VideosDataSource;
 import net.epictimes.nanodegreepopularmovies.di.qualifier.RemoteDataSource;
 
@@ -36,6 +37,11 @@ public abstract class RemoteDataSourceModule {
     @Singleton
     @Binds
     abstract VideosDataSource provideVideosRemoteDataSource(VideosRemoteDataSource videosRemoteDataSource);
+
+    @RemoteDataSource
+    @Singleton
+    @Binds
+    abstract ReviewsDataSource provideReviewsRemoteDataSource(ReviewsRemoteDataSource reviewsRemoteDataSource);
 
     @Singleton
     @Provides
