@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import net.epictimes.nanodegreepopularmovies.BuildConfig;
 import net.epictimes.nanodegreepopularmovies.data.MoviesDataSource;
+import net.epictimes.nanodegreepopularmovies.data.VideosDataSource;
 import net.epictimes.nanodegreepopularmovies.di.qualifier.RemoteDataSource;
 
 import javax.inject.Singleton;
@@ -29,7 +30,12 @@ public abstract class RemoteDataSourceModule {
     @RemoteDataSource
     @Singleton
     @Binds
-    abstract MoviesDataSource provideRemoteDataSource(MoviesRemoteDataSource moviesRemoteDataSource);
+    abstract MoviesDataSource provideMoviesRemoteDataSource(MoviesRemoteDataSource moviesRemoteDataSource);
+
+    @RemoteDataSource
+    @Singleton
+    @Binds
+    abstract VideosDataSource provideVideosRemoteDataSource(VideosRemoteDataSource videosRemoteDataSource);
 
     @Singleton
     @Provides

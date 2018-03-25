@@ -6,8 +6,8 @@ import net.epictimes.nanodegreepopularmovies.features.detail.overview.OverviewFr
 import net.epictimes.nanodegreepopularmovies.features.detail.overview.OverviewFragmentModule;
 import net.epictimes.nanodegreepopularmovies.features.detail.reviews.ReviewsFragment;
 import net.epictimes.nanodegreepopularmovies.features.detail.reviews.ReviewsFragmentModule;
-import net.epictimes.nanodegreepopularmovies.features.detail.trailers.TrailersFragment;
-import net.epictimes.nanodegreepopularmovies.features.detail.trailers.TrailersFragmentModule;
+import net.epictimes.nanodegreepopularmovies.features.detail.videos.VideosFragment;
+import net.epictimes.nanodegreepopularmovies.features.detail.videos.VideosFragmentModule;
 
 import dagger.Binds;
 import dagger.Module;
@@ -29,8 +29,8 @@ public abstract class DetailActivityModule {
     abstract OverviewFragment contributeOverviewFragmentInjector();
 
     @FragmentScoped
-    @ContributesAndroidInjector(modules = TrailersFragmentModule.class)
-    abstract TrailersFragment contributeTrailersFragmentInjector();
+    @ContributesAndroidInjector(modules = VideosFragmentModule.class)
+    abstract VideosFragment contributeVideosFragmentInjector();
 
     @FragmentScoped
     @ContributesAndroidInjector(modules = ReviewsFragmentModule.class)

@@ -68,16 +68,14 @@ public class OverviewFragment extends MvpFragment<OverviewContract.View, Overvie
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_overview, container, false);
-
-        textViewOverview = view.findViewById(R.id.textViewOverview);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_overview, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        textViewOverview = view.findViewById(R.id.textViewOverview);
 
         presenter.getMovieOverview(movieId);
     }

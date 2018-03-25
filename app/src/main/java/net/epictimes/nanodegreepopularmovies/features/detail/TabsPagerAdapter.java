@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import net.epictimes.nanodegreepopularmovies.R;
 import net.epictimes.nanodegreepopularmovies.features.detail.overview.OverviewFragment;
 import net.epictimes.nanodegreepopularmovies.features.detail.reviews.ReviewsFragment;
-import net.epictimes.nanodegreepopularmovies.features.detail.trailers.TrailersFragment;
+import net.epictimes.nanodegreepopularmovies.features.detail.videos.VideosFragment;
 
 /**
  * Created by Mustafa Berkay Mutlu on 24.03.2018.
@@ -31,7 +31,7 @@ class TabsPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return OverviewFragment.newInstance(movieId);
             case 1:
-                return TrailersFragment.newInstance(movieId);
+                return VideosFragment.newInstance(movieId);
             case 2:
                 return ReviewsFragment.newInstance(movieId);
             default:

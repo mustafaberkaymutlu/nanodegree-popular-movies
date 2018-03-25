@@ -2,6 +2,7 @@ package net.epictimes.nanodegreepopularmovies.data.remote;
 
 import net.epictimes.nanodegreepopularmovies.data.model.Movie;
 import net.epictimes.nanodegreepopularmovies.data.model.PagedMovies;
+import net.epictimes.nanodegreepopularmovies.data.remote.response.GetVideosResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -22,5 +23,8 @@ public interface Services {
 
     @GET("/3/movie/{movie-id}")
     Call<Movie> getMovie(@Path("movie-id") int movieId);
+
+    @GET("/3/movie/{movie-id}/videos")
+    Call<GetVideosResponse> getVideos(@Path("movie-id") int movieId);
 
 }

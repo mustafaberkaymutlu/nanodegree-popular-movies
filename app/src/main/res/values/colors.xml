@@ -7,5 +7,7 @@
     <color name="grey_900">#212121</color>
     <color name="grey_200">#EEEEEE</color>
 
+    <color name="movies_divider">#1effffff</color>
+
     <color name="primary_text_on_dark">#FFFFFF</color>
 </resources>
