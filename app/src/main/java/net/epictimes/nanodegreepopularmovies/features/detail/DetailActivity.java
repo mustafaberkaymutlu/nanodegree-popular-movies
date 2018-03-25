@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +65,7 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
     private ImageView imageViewBackdrop;
     private TextView textViewTitle;
     private TextView textViewReleaseDate;
-    private TextView textViewVoteAverage;
+    private RatingBar ratingBarVoteAverage;
 
     @NonNull
     @Override
@@ -88,7 +89,7 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
         imageViewPoster = findViewById(R.id.imageViewPoster);
         textViewTitle = findViewById(R.id.textViewTitle);
         textViewReleaseDate = findViewById(R.id.textViewReleaseDate);
-        textViewVoteAverage = findViewById(R.id.textViewVoteAverage);
+        ratingBarVoteAverage = findViewById(R.id.ratingBarVoteAverage);
 
         final int movieId = getIntent().getIntExtra(KEY_MOVIE_ID, -1);
 
@@ -160,7 +161,7 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
 
         textViewTitle.setText(movie.getTitle());
         textViewReleaseDate.setText(movie.getReleaseDate());
-        textViewVoteAverage.setText(String.valueOf(movie.getVoteAverage()));
+        ratingBarVoteAverage.setRating((float) movie.getVoteAverage());
     }
 
     @Override

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.epictimes.nanodegreepopularmovies.features.detail.DetailActivity"
-    android:background="@color/grey_900">
+    android:background="@color/grey_900"
+    tools:context="net.epictimes.nanodegreepopularmovies.features.detail.DetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -85,29 +85,33 @@
 
             <TextView
                 android:id="@+id/textViewReleaseDate"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/primary_text_on_dark"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textViewTitle"
                 app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
                 tools:text="11.10.2016" />
 
-            <TextView
-                android:id="@+id/textViewVoteAverage"
-                android:layout_width="0dp"
+            <RatingBar
+                android:id="@+id/ratingBarVoteAverage"
+                style="@style/Base.Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/primary_text_on_dark"
+                android:background="@drawable/ratingbar_border"
+                android:numStars="10"
+                android:stepSize="0.1"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textViewReleaseDate"
                 app:layout_constraintTop_toBottomOf="@+id/textViewReleaseDate"
-                tools:text="4.5" />
+                tools:rating="7.4" />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabLayout"
