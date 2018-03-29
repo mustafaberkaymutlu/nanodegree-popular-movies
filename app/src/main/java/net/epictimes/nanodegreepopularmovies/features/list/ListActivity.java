@@ -114,6 +114,9 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
             case TOP_RATED:
                 Toast.makeText(this, R.string.error_getting_top_rated_movies, Toast.LENGTH_SHORT).show();
                 break;
+            case FAVORITES:
+                Toast.makeText(this, R.string.error_getting_favorite_movies, Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -132,6 +135,9 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
                     break;
                 case 1:
                     presenter.switchSortCriteria(SortCriteria.TOP_RATED);
+                    break;
+                case 2:
+                    presenter.switchSortCriteria(SortCriteria.FAVORITES);
                     break;
             }
         }

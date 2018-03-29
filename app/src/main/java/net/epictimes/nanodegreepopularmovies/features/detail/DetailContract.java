@@ -17,12 +17,19 @@ public interface DetailContract {
 
         void displayMovieError();
 
+        void displayAddedToFavorites();
+
+        void displayRemovedFromFavorites();
+
+        void displayFavoriteStatus(boolean isFavorite);
+
     }
 
     interface Presenter extends MvpPresenter<View> {
 
         void getMovie(int movieId);
 
+        void switchFavoriteStatus();
     }
 
 }

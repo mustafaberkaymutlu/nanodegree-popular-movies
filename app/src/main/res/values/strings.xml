@@ -3,6 +3,7 @@
 
     <string name="error_getting_popular_movies">Error while getting popular movies</string>
     <string name="error_getting_top_rated_movies">Error while getting top rated movies</string>
+    <string name="error_getting_favorite_movies">Error while getting favorite movies</string>
     <string name="error_displaying_movie">Error while displaying movie</string>
     <string name="error_displaying_movie_overview">Error while displaying movie overview</string>
     <string name="error_displaying_movie_trailers">Error while displaying movie trailers</string>
@@ -16,11 +17,15 @@
     <string name="detail_label_release_date">Release Date</string>
     <string name="detail_label_vote_average">Vote Average</string>
 
+    <string name="movie_added_to_favorites">Movie added to favorites</string>
+    <string name="movie_removed_from_favorites">Movie removed from favorites</string>
+
     <string name="action_title_add_favorite">Add to Favorites</string>
     <string name="action_title_remove_from_favorite">Remove from Favorites</string>
 
     <string-array name="sort_criteria">
         <item>Popular</item>
         <item>Top Rated</item>
+        <item>Favorites</item>
     </string-array>
 </resources>

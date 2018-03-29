@@ -5,5 +5,6 @@ package net.epictimes.nanodegreepopularmovies.features.list;
  */
 enum SortCriteria {
     POPULAR,
-    TOP_RATED
+    TOP_RATED,
+    FAVORITES
 }

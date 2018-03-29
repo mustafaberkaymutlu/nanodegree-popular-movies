@@ -4,6 +4,7 @@ import android.util.SparseArray;
 
 import net.epictimes.nanodegreepopularmovies.data.model.Movie;
 import net.epictimes.nanodegreepopularmovies.data.model.PagedMovies;
+import net.epictimes.nanodegreepopularmovies.di.qualifier.LocalDataSource;
 import net.epictimes.nanodegreepopularmovies.di.qualifier.RemoteDataSource;
 
 import javax.inject.Inject;
@@ -18,6 +19,10 @@ public class MovieRepository implements MoviesDataSource {
     @RemoteDataSource
     @Inject
     MoviesDataSource remoteDataSource;
+
+    @LocalDataSource
+    @Inject
+    MoviesDataSource localDataSource;
 
     @Inject
     MovieRepository() {
@@ -56,6 +61,11 @@ public class MovieRepository implements MoviesDataSource {
     }
 
     @Override
+    public void getFavoriteMovies(GetMoviesCallback callback) {
+        localDataSource.getFavoriteMovies(callback);
+    }
+
+    @Override
     public void getMovieById(int movieId, GetMovieCallback callback) {
         final Movie movie = cache.get(movieId);
 
@@ -64,6 +74,21 @@ public class MovieRepository implements MoviesDataSource {
         } else {
             callback.onMovieReceived(movie);
         }
+    }
+
+    @Override
+    public void addToFavorites(Movie movie) {
+        localDataSource.addToFavorites(movie);
+    }
+
+    @Override
+    public void removeFromFavorites(int movieId) {
+        localDataSource.removeFromFavorites(movieId);
+    }
+
+    @Override
+    public void isMovieFavorite(int movieId, IsFavoriteCallback callback) {
+        localDataSource.isMovieFavorite(movieId, callback);
     }
 
     private void addMoviesToCache(Iterable<Movie> movies) {

@@ -32,6 +32,12 @@
                 android:value=".features.list.ListActivity" />
         </activity>
 
+        <provider
+            android:authorities="net.epictimes.nanodegreepopularmovies"
+            android:name=".data.local.MoviesProvider"
+            android:exported="false"
+            android:syncable="true"/>
+
     </application>
 
 </manifest>

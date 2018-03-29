@@ -73,6 +73,9 @@ class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListC
             case TOP_RATED:
                 moviesDataSource.getTopRatedMovies(currentPageIndex + 1, getMoviesCallback);
                 break;
+            case FAVORITES:
+                moviesDataSource.getFavoriteMovies(getMoviesCallback);
+                break;
         }
     }
 

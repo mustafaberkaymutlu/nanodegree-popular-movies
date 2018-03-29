@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -47,6 +48,8 @@ import dagger.android.support.HasSupportFragmentInjector;
 public class DetailActivity extends BaseActivity<DetailContract.View, DetailContract.Presenter>
         implements DetailContract.View, HasSupportFragmentInjector {
     private static final String KEY_MOVIE_ID = "movie_id";
+
+    private boolean isFavorite;
 
     public static Intent newIntent(@NonNull Context context, int movieId) {
         final Intent intent = new Intent(context, DetailActivity.class);
@@ -107,10 +110,17 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail, menu);
+        return true;
+    }
 
-        // TODO set favorite status of movie
-        final MenuItem item = menu.findItem(R.id.action_favorite);
-        item.setIcon(R.drawable.ic_favorite_border_white_24px);
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        @DrawableRes final int iconRes = isFavorite
+                ? R.drawable.ic_favorite_white_24px
+                : R.drawable.ic_favorite_border_white_24px;
+
+        final MenuItem menuItemFavorite = menu.findItem(R.id.action_favorite);
+        menuItemFavorite.setIcon(iconRes);
 
         return true;
     }
@@ -119,8 +129,7 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite: {
-                Toast.makeText(DetailActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
-                // TODO implement adding/removing favorites
+                presenter.switchFavoriteStatus();
                 return true;
             }
             default: {
@@ -167,6 +176,24 @@ public class DetailActivity extends BaseActivity<DetailContract.View, DetailCont
     @Override
     public void displayMovieError() {
         Toast.makeText(this, R.string.error_displaying_movie, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayAddedToFavorites() {
+        displayFavoriteStatus(true);
+        Toast.makeText(this, R.string.movie_added_to_favorites, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayRemovedFromFavorites() {
+        displayFavoriteStatus(false);
+        Toast.makeText(this, R.string.movie_removed_from_favorites, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayFavoriteStatus(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+        invalidateOptionsMenu();
     }
 
     private void createPaletteAsync(Bitmap bitmap) {

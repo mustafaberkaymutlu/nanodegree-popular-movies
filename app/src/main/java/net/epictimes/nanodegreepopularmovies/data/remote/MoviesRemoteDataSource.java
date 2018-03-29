@@ -74,6 +74,11 @@ public class MoviesRemoteDataSource implements MoviesDataSource {
     }
 
     @Override
+    public void getFavoriteMovies(GetMoviesCallback callback) {
+        throw new UnsupportedOperationException("Getting favorites using remote is not supported. ");
+    }
+
+    @Override
     public void getMovieById(int movieId, GetMovieCallback callback) {
         services.getMovie(movieId)
                 .enqueue(new Callback<Movie>() {
@@ -95,5 +100,20 @@ public class MoviesRemoteDataSource implements MoviesDataSource {
                         callback.onMovieNotAvailable();
                     }
                 });
+    }
+
+    @Override
+    public void addToFavorites(Movie movie) {
+        throw new UnsupportedOperationException("Adding to favorites using remote is not supported. ");
+    }
+
+    @Override
+    public void removeFromFavorites(int movieId) {
+        throw new UnsupportedOperationException("Removing from favorites using remote is not supported. ");
+    }
+
+    @Override
+    public void isMovieFavorite(int movieId, IsFavoriteCallback callback) {
+        throw new UnsupportedOperationException("Querying for favorites using remote is not supported. ");
     }
 }

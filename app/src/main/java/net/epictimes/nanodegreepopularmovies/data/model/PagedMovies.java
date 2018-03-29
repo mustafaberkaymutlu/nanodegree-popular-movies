@@ -22,6 +22,13 @@ public class PagedMovies {
     @SerializedName("total_pages")
     private int totalPages;
 
+    public PagedMovies(List<Movie> results) {
+        this.page = 1;
+        this.results = results;
+        this.totalResults = results.size();
+        this.totalPages = 1;
+    }
+
     public int getPage() {
         return page;
     }

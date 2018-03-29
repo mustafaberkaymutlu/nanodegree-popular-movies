@@ -21,6 +21,9 @@ public class DetailPresenter extends MvpBasePresenter<DetailContract.View>
     @Inject
     MoviesDataSource moviesRepository;
 
+    private Movie movie;
+    private boolean isFavorite;
+
     @Inject
     DetailPresenter() {
     }
@@ -35,9 +38,29 @@ public class DetailPresenter extends MvpBasePresenter<DetailContract.View>
         moviesRepository.getMovieById(movieId, getMovieCallback);
     }
 
+    @Override
+    public void switchFavoriteStatus() {
+        if (isFavorite) {
+            moviesRepository.removeFromFavorites(movie.getId());
+            isFavorite = false;
+            ifViewAttached(DetailContract.View::displayRemovedFromFavorites);
+        } else {
+            moviesRepository.addToFavorites(movie);
+            isFavorite = true;
+            ifViewAttached(DetailContract.View::displayAddedToFavorites);
+        }
+    }
+
     private class MyGetMovieCallback implements MoviesDataSource.GetMovieCallback {
         @Override
         public void onMovieReceived(Movie movie) {
+            DetailPresenter.this.movie = movie;
+
+            moviesRepository.isMovieFavorite(movie.getId(), isFavorite -> {
+                DetailPresenter.this.isFavorite = isFavorite;
+                ifViewAttached(view -> view.displayFavoriteStatus(isFavorite));
+            });
+
             ifViewAttached(view -> view.displayMovie(movie));
         }
 

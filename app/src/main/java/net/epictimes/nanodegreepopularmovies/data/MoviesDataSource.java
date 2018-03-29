@@ -13,7 +13,15 @@ public interface MoviesDataSource {
 
     void getTopRatedMovies(int page, GetMoviesCallback callback);
 
+    void getFavoriteMovies(GetMoviesCallback callback);
+
     void getMovieById(int movieId, GetMovieCallback callback);
+
+    void addToFavorites(Movie movie);
+
+    void removeFromFavorites(int movieId);
+
+    void isMovieFavorite(int movieId, IsFavoriteCallback callback);
 
     interface GetMoviesCallback {
 
@@ -28,6 +36,12 @@ public interface MoviesDataSource {
         void onMovieReceived(Movie movie);
 
         void onMovieNotAvailable();
+
+    }
+
+    interface IsFavoriteCallback {
+
+        void onIsFavoriteReceived(boolean isFavorite);
 
     }
 
