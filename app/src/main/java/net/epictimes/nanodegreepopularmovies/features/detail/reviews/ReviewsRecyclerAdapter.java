@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Mustafa Berkay Mutlu on 25.03.2018.
  */
 
-public class ReviewsRecyclerAdapter extends RecyclerView.Adapter<ReviewsViewHolder> {
+class ReviewsRecyclerAdapter extends RecyclerView.Adapter<ReviewsViewHolder> {
     private final List<Review> reviews = new ArrayList<>();
 
     @NonNull

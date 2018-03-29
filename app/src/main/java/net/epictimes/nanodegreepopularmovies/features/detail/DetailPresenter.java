@@ -15,7 +15,7 @@ import javax.inject.Inject;
 public class DetailPresenter extends MvpBasePresenter<DetailContract.View>
         implements DetailContract.Presenter {
 
-    private MoviesDataSource.GetMovieCallback getMovieCallback = new MyGetMovieCallback();
+    private final MoviesDataSource.GetMovieCallback getMovieCallback = new MyGetMovieCallback();
 
     @Repository
     @Inject

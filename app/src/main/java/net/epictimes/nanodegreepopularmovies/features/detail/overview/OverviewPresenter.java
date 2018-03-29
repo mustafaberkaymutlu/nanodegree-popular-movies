@@ -19,10 +19,10 @@ public class OverviewPresenter extends MvpBasePresenter<OverviewContract.View>
     @Inject
     MoviesDataSource repository;
 
-    private MoviesDataSource.GetMovieCallback myGetMovieCallback = new MyGetMovieCallback();
+    private final MoviesDataSource.GetMovieCallback myGetMovieCallback = new MyGetMovieCallback();
 
     @Inject
-    public OverviewPresenter() {
+    OverviewPresenter() {
     }
 
     @Override

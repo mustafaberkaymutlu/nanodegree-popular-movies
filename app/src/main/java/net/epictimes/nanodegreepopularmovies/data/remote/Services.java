@@ -14,7 +14,7 @@ import retrofit2.http.Query;
  * Created by Mustafa Berkay Mutlu on 3.03.2018.
  */
 
-public interface Services {
+interface Services {
 
     @GET("/3/movie/popular")
     Call<PagedMovies> getPopularMovies(@Query("page") int page);

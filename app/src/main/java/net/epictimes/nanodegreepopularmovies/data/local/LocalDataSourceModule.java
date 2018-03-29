@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import net.epictimes.nanodegreepopularmovies.MoviesApp;
 import net.epictimes.nanodegreepopularmovies.data.MoviesDataSource;
 import net.epictimes.nanodegreepopularmovies.di.qualifier.LocalDataSource;
-import net.epictimes.nanodegreepopularmovies.di.qualifier.RemoteDataSource;
 
 import javax.inject.Singleton;
 

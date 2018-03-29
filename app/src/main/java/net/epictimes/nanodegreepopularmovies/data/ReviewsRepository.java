@@ -15,7 +15,7 @@ public class ReviewsRepository implements ReviewsDataSource {
     ReviewsDataSource remoteDataSource;
 
     @Inject
-    public ReviewsRepository() {
+    ReviewsRepository() {
     }
 
     @Override

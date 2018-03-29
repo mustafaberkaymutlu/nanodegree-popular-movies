@@ -19,7 +19,7 @@ public class ReviewsRemoteDataSource implements ReviewsDataSource {
     Services services;
 
     @Inject
-    public ReviewsRemoteDataSource() {
+    ReviewsRemoteDataSource() {
     }
 
     @Override

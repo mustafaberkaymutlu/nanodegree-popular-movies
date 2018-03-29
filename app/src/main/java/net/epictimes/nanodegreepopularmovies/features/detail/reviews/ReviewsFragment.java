@@ -62,8 +62,7 @@ public class ReviewsFragment extends MvpFragment<ReviewsContract.View, ReviewsCo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Bundle arguments = getArguments();
-        Preconditions.checkNotNull(arguments);
+        final Bundle arguments = Preconditions.checkNotNull(getArguments());
         movieId = arguments.getInt(KEY_MOVIE_ID);
     }
 

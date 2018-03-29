@@ -1,7 +1,5 @@
 package net.epictimes.nanodegreepopularmovies.features.detail.videos;
 
-import android.support.annotation.NonNull;
-
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 
 import net.epictimes.nanodegreepopularmovies.data.VideosDataSource;
