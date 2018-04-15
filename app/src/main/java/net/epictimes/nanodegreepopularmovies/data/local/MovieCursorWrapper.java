@@ -39,7 +39,8 @@ class MovieCursorWrapper extends CursorWrapper {
         return movie;
     }
 
-    static ContentValues getContentValues(Movie movie) {
+    @NonNull
+    static ContentValues getContentValues(@NonNull Movie movie) {
         final ContentValues values = new ContentValues();
 
         values.put(MoviesContract.MovieEntry._ID, movie.getId());

@@ -25,7 +25,6 @@ import dagger.android.AndroidInjection;
 
 public class ListActivity extends BaseActivity<ListContract.View, ListContract.Presenter>
         implements ListContract.View {
-    private static final int MOVIES_GRID_SPAN_COUNT = 2;
 
     @Inject
     ListContract.Presenter listPresenter;
@@ -62,8 +61,9 @@ public class ListActivity extends BaseActivity<ListContract.View, ListContract.P
         spinnerSortCriteria.setOnItemSelectedListener(new MyOnItemSelectedListener());
 
         final RecyclerView recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
+        final int spanCount = getResources().getInteger(R.integer.list_span_count);
         final GridLayoutManager gridLayoutManager =
-                new GridLayoutManager(this, MOVIES_GRID_SPAN_COUNT);
+                new GridLayoutManager(this, spanCount);
 
         recyclerViewAdapter = new MoviesRecyclerViewAdapter();
         recyclerViewAdapter.setMovieClickListener(movie -> presenter.userClickedMovie(movie));
