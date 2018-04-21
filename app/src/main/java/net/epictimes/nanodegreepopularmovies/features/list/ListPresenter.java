@@ -31,6 +31,8 @@ class ListPresenter extends MvpBasePresenter<ListContract.View> implements ListC
 
     @Override
     public void getMovies() {
+        this.currentPageIndex = INITIAL_PAGE_INDEX;
+
         ifViewAttached(ListContract.View::showLoading);
         getMoviesBySortCriteria();
     }
